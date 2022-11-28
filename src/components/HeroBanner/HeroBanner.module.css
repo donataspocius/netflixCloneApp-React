@@ -1,9 +1,20 @@
-.HeroBanner {
+.heroBanner {
   min-height: 490px;
   background-image: url("./../../imgs/heroImg.png");
+  display: flex;
 }
 
-h1 {
+.heroBannerContent {
+  margin: auto;
+}
+
+.heroBanner h1 {
   font-size: 48px;
   font-weight: 700;
+  margin-bottom: 29px;
+}
+
+.heroBannerContent button {
+  display: block;
+  margin: auto;
 }

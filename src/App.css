@@ -6,7 +6,26 @@
   color: white;
 }
 
+.movieContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px 100px;
+  padding: 48px 55px 68px 55px;
+}
+
 .logo {
   height: 32px;
   width: 16px;
+}
+
+.horizontalLine {
+  height: 10px;
+  background-color: var(--darkGrey);
+}
+
+.getMoreBtnDiv button {
+  display: block;
+  margin: auto;
+  justify-items: center;
+  margin-bottom: 68px;
 }

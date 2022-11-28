@@ -1,6 +1,39 @@
-/* .MovieCard {
-} */
-
-img {
+.movieCard {
   width: 270px;
+  overflow: hidden;
+  position: relative;
+}
+
+.imgContainer {
+  height: 335px;
+  width: 270px;
+}
+
+.imgContainer img {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  top: -10%;
+}
+
+.contentContainer {
+  position: absolute;
+  background-color: var(--darkGrey);
+  bottom: 0%;
+  padding: 10px 20px 14px 20px;
+}
+
+.contentContainer p {
+  line-height: 16px;
+  height: 32px;
+  overflow: hidden;
+}
+
+.contentContainer h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.contentContainer button {
+  margin-top: 15px;
 }

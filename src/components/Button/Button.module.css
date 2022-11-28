@@ -20,6 +20,8 @@
 }
 
 .button--fav {
+  display: flex;
+  align-items: center;
   height: 30px;
   padding: 11px 34px 10px 34px;
   background-color: transparent;

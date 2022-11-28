@@ -2,28 +2,70 @@ import React, { useState, useEffect } from "react";
 
 import "./App.css";
 import Button from "./components/Button/Button";
-import HeaderFooterWrapper from "./components/HeaderFooterWrapper/HeaderFooterWrapper";
 import HeroBanner from "./components/HeroBanner/HeroBanner";
-import MoviesContainer from "./components/MoviesContainer/MoviesContainer";
-import logo from "./imgs/logo.png";
-import creditCardsImg from "./imgs/creditCards.png";
+import Header from "./components/Header/Header";
+import MovieCard from "./components/MovieCard/MovieCard";
+import Footer from "./components/Footer/Footer";
 
 function App() {
+  const [moviesList, setMoviesList] = useState([]);
+
+  useEffect(() => {
+    // getting API data
+    async function getApiData() {
+      try {
+        const result = await fetch(
+          "https://academy-video-api.herokuapp.com/content/free-items"
+        );
+        const apiData = await result.json();
+        return apiData;
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+
+    // setting default isFavorite to FALSE
+    getApiData().then((moviesData) => {
+      const updatedMovieList = moviesData.map((movie) => ({
+        ...movie,
+        isFavorite: false,
+      }));
+      setMoviesList(updatedMovieList);
+    });
+  }, []);
+
+  function toggleFavorites(movieId) {
+    setMoviesList((prevList) => {
+      return prevList.map((movie) => {
+        return movie.id === movieId
+          ? { ...movie, isFavorite: !movie.isFavorite }
+          : movie;
+      });
+    });
+  }
+
   return (
     <div className="App">
-      <HeaderFooterWrapper>
-        <img className="logo" src={logo} alt="logo" />
-        <Button type="big" name="Sign In" />
-      </HeaderFooterWrapper>
+      <Header />
       <main>
         <HeroBanner />
-        <MoviesContainer />
-        <Button type="big" name={"Get More Content"} />
+        <div className="horizontalLine"></div>
+        <div className="movieContainer">
+          {moviesList.map((movie) => {
+            return (
+              <MovieCard
+                {...movie}
+                onSetFav={() => toggleFavorites(movie.id)}
+                key={movie.id}
+              />
+            );
+          })}
+        </div>
+        <div className="getMoreBtnDiv">
+          <Button type="big" name={"Get More Content"} />
+        </div>
       </main>
-      <HeaderFooterWrapper>
-        <p>We care about your entertainment. Copyright © 2019-2021 felix.com</p>
-        <img src={creditCardsImg} alt="credit card logos" />
-      </HeaderFooterWrapper>
+      <Footer />
     </div>
   );
 }
