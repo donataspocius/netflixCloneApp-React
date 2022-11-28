@@ -21,7 +21,7 @@ function App() {
         <Button type="big" name={"Get More Content"} />
       </main>
       <HeaderFooterWrapper>
-        <p>We care about your entertainment. Copyright © 2019–2021 felix.com</p>
+        <p>We care about your entertainment. Copyright © 2019-2021 felix.com</p>
         <img src={creditCardsImg} alt="credit card logos" />
       </HeaderFooterWrapper>
     </div>

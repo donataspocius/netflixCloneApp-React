@@ -1,4 +1,9 @@
 .HeroBanner {
   min-height: 490px;
-  background-color: #222222;
+  background-image: url("./../../imgs/heroImg.png");
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 700;
 }
