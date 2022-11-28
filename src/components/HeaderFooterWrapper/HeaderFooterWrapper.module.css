@@ -1,0 +1,7 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  color: white;
+  /* background-color: var(--darkGrey); */
+}

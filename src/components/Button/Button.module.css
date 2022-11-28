@@ -1,0 +1,25 @@
+.button {
+  background-color: var(--red);
+  border-radius: 4px;
+  border: none;
+  color: white;
+}
+
+.button--small {
+  height: 30px;
+  padding: 9px 25px 6px 25px;
+  background-color: var(--red);
+}
+
+.button--big {
+  height: 40px;
+  padding: 11px 34px 10px 34px;
+  background-color: var(--red);
+}
+
+.button--fav {
+  height: 30px;
+  padding: 11px 34px 10px 34px;
+  background-color: transparent;
+  border: 1px solid var(--red);
+}

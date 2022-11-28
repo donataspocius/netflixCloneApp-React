@@ -1,0 +1,24 @@
+       
+        <Header />
+        <Main>
+            <HeroBanner /> 
+            <MoviesContainer props={obj} /> 
+                <MovieCard props={obj} /> 
+                    Background image 
+                    Title 
+                    Description 
+                    <Button></BUtton> 
+                <MovieCard props={obj} /> 
+                    Background image 
+                    Title 
+                    Description 
+                    <Button></BUtton> 
+                <MovieCard props={obj} /> 
+                    Background image 
+                    Title 
+                    Description 
+                    <Button></BUtton> 
+
+            <Button props={obj} /> 
+        <Main />
+        <Footer props={obj} /> 
