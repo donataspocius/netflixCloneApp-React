@@ -62,7 +62,7 @@ function App() {
           })}
         </div>
         <div className="getMoreBtnDiv">
-          <Button type="big" name={"Get More Content"} />
+          <Button type="big">Get More Content</Button>
         </div>
       </main>
       <Footer />

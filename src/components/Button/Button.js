@@ -1,6 +1,6 @@
 import classes from "./Button.module.css";
 
-export default function Button({ id, name, onClick, type, isFavorite }) {
+export default function Button({ id, children, onClick, type, isFavorite }) {
   return (
     <button
       id={id}
@@ -9,7 +9,7 @@ export default function Button({ id, name, onClick, type, isFavorite }) {
       }`}
       onClick={onClick}
     >
-      {isFavorite ? "Remove 💔" : name}
+      {children}
     </button>
   );
 }

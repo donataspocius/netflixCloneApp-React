@@ -17,13 +17,9 @@ export default function MovieCard({
       <div className={classes.contentContainer}>
         <h3>{title}</h3>
         <p>{description}</p>
-        <Button
-          id={id}
-          type="small"
-          name="Favorite"
-          isFavorite={isFavorite}
-          onClick={onSetFav}
-        />
+        <Button id={id} type="small" onClick={onSetFav} isFavorite={isFavorite}>
+          {isFavorite ? "Remove 💔" : "Favorite"}
+        </Button>
       </div>
     </div>
   );

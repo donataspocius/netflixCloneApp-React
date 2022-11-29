@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <div className={classes.header}>
       <img className="logo" src={logo} alt="logo" />
-      <Button type="big" name="Sign In" />
+      <Button type="big">Sign in</Button>
     </div>
   );
 }
