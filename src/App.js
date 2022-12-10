@@ -15,7 +15,7 @@ function App() {
     async function getApiData() {
       try {
         const result = await fetch(
-          "https://academy-video-api.herokuapp.com/content/free-items"
+          "https://dummy-video-api.onrender.com/content/free-items"
         );
         const apiData = await result.json();
         return apiData;
