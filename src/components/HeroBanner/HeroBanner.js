@@ -6,7 +6,7 @@ export default function HeroBanner() {
     <div className={classes.heroBanner}>
       <div className={classes.heroBannerContent}>
         <h1>Wanna more Content?</h1>
-        <Button type="big">Get Access</Button>
+        <Button size="big">Get Access</Button>
       </div>
     </div>
   );

@@ -1,73 +1,29 @@
-import React, { useState, useEffect } from "react";
+import { createBrowserRouter } from "react-router-dom";
 
 import "./App.css";
-import Button from "./components/Button/Button";
-import HeroBanner from "./components/HeroBanner/HeroBanner";
-import Header from "./components/Header/Header";
-import MovieCard from "./components/MovieCard/MovieCard";
-import Footer from "./components/Footer/Footer";
+import HomePage from "./pages/HomePage";
+import Error from "./pages/Error";
+import Layout from "./components/Layout/Layout";
+import Login from "./pages/Login.js";
 
-function App() {
-  const [moviesList, setMoviesList] = useState([]);
-
-  useEffect(() => {
-    // getting API data
-    async function getApiData() {
-      try {
-        const result = await fetch(
-          "https://dummy-video-api.onrender.com/content/free-items"
-        );
-        const apiData = await result.json();
-        return apiData;
-      } catch (error) {
-        throw new Error(error);
-      }
-    }
-
-    // setting default isFavorite to FALSE
-    getApiData().then((moviesData) => {
-      const updatedMovieList = moviesData.map((movie) => ({
-        ...movie,
-        isFavorite: false,
-      }));
-      setMoviesList(updatedMovieList);
-    });
-  }, []);
-
-  function toggleFavorites(movieId) {
-    setMoviesList((prevList) => {
-      return prevList.map((movie) => {
-        return movie.id === movieId
-          ? { ...movie, isFavorite: !movie.isFavorite }
-          : movie;
-      });
-    });
-  }
-
-  return (
-    <div className="App">
-      <Header />
-      <main>
-        <HeroBanner />
-        <div className="horizontalLine"></div>
-        <div className="movieContainer">
-          {moviesList.map((movie) => {
-            return (
-              <MovieCard
-                {...movie}
-                onSetFav={() => toggleFavorites(movie.id)}
-                key={movie.id}
-              />
-            );
-          })}
-        </div>
-        <div className="getMoreBtnDiv">
-          <Button type="big">Get More Content</Button>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-export default App;
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+    ],
+  },
+  // {
+  //   path: "/about",
+  //   element: <p>About is here</p>,
+  // },
+]);

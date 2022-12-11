@@ -29,3 +29,8 @@
   justify-items: center;
   margin-bottom: 68px;
 }
+
+.background {
+  background-color: var(--darkGrey);
+  height: 84vh;
+}
