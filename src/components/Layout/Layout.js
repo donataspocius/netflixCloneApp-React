@@ -1,14 +1,12 @@
-import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
-// import LayoutCss from "./Layout.css";
+import classes from "./Layout.module.css";
 
-export default function Layout() {
+export default function Layout({ children }) {
   return (
-    <div className="App">
+    <div className={classes.Layout}>
       <Header />
-      <Outlet />
+      <main className={classes.Layout__main}>{children}</main>
       <Footer />
     </div>
   );

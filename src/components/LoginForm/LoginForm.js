@@ -1,71 +1,87 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./LoginForm.module.css";
 import Button from "../Button/Button";
 
 export default function LoginForm() {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [loginStatus, setLoginStatus] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [canLogin, setCanLogin] = useState(true);
 
-  async function handleLogin(e) {
-    e.preventDefault();
+  const navigate = useNavigate();
 
-    const response = await fetch(
-      "https://dummy-video-api.onrender.com/auth/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          username: { username },
-          password: { password },
-        }),
+  async function getAccessToken() {
+    try {
+      const response = await fetch(
+        "https://dummy-video-api.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        setCanLogin(false);
       }
-    );
 
-    console.log("username: ", username, "password: ", password);
+      const resp = await response.json();
+      return resp;
+    } catch (error) {
+      throw new Error("Error while fetching: ", error);
+    }
+  }
 
-    const responseData = await response.json();
-    console.log(responseData);
+  function handleSubmit(e) {
+    e.preventDefault();
+    getAccessToken().then((data) => {
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        setCanLogin(true);
+        navigate("/content", { replace: true });
+      }
+    });
+    resetFormFields();
+  }
 
-    responseData.message === "Bad credentials!"
-      ? setLoginStatus("bad")
-      : setLoginStatus("good");
-
-    console.log("login status: ", loginStatus);
-
-    return responseData;
+  function resetFormFields() {
+    setUsername("");
+    setPassword("");
   }
 
   return (
-    <form className={classes.formContainer}>
-      <label>
+    <form className={classes.formContainer} onSubmit={handleSubmit}>
+      <label htmlFor="username">
         Username:{" "}
         <input
+          id="username"
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
           }}
         />
       </label>
-      <label>
+      <label htmlFor="password">
         Password:{" "}
         <input
+          id="password"
           value={password}
-          //   type="password"
+          type="password"
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
       </label>
-      {loginStatus === "bad" && (
-        <p>"Failure: please check the login details."</p>
-      )}
-      <Button size="big" type="submit" onClick={handleLogin}>
+      <Button size="big" type="submit">
         Sign In
       </Button>
+      {!canLogin && <p>Failure: please check the login details.</p>}
     </form>
   );
 }

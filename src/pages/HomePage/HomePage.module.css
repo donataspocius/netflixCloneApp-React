@@ -1,21 +1,8 @@
-.App {
-  min-height: 100vh;
-  max-width: 1120px;
-  margin: 0 auto;
-  background-color: #000000;
-  color: white;
-}
-
 .movieContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 50px 100px;
   padding: 48px 55px 68px 55px;
-}
-
-.logo {
-  height: 32px;
-  width: 16px;
 }
 
 .horizontalLine {
@@ -28,9 +15,4 @@
   margin: auto;
   justify-items: center;
   margin-bottom: 68px;
-}
-
-.background {
-  background-color: var(--darkGrey);
-  height: 84vh;
 }

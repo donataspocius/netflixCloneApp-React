@@ -17,6 +17,7 @@
 }
 
 .contentContainer {
+  color: white;
   position: absolute;
   background-color: var(--darkGrey);
   bottom: 0%;

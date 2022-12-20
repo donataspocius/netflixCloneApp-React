@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState } from "react";
 
-import HeroBanner from "../components/HeroBanner/HeroBanner";
-import MovieCard from "../components/MovieCard/MovieCard";
-import Button from "../components/Button/Button";
+import classes from "./HomePage.module.css";
 
-export default function HomePage() {
+import HeroBanner from "../../components/HeroBanner/HeroBanner";
+import MovieCard from "../../components/MovieCard/MovieCard";
+import Button from "../../components/Button/Button";
+
+export default function HomePage({ toggleFavorites, favorites }) {
   const [moviesList, setMoviesList] = useState([]);
 
   useEffect(() => {
@@ -21,44 +23,30 @@ export default function HomePage() {
       }
     }
 
-    // setting default isFavorite to FALSE
     getApiData().then((moviesData) => {
-      const updatedMovieList = moviesData.map((movie) => ({
-        ...movie,
-        isFavorite: false,
-      }));
-      setMoviesList(updatedMovieList);
+      setMoviesList(moviesData);
     });
   }, []);
 
-  function toggleFavorites(movieId) {
-    setMoviesList((prevList) => {
-      return prevList.map((movie) => {
-        return movie.id === movieId
-          ? { ...movie, isFavorite: !movie.isFavorite }
-          : movie;
-      });
-    });
-  }
-
   return (
-    <main>
+    <Fragment>
       <HeroBanner />
-      <div className="horizontalLine"></div>
-      <div className="movieContainer">
+      <div className={classes.horizontalLine}></div>
+      <div className={classes.movieContainer}>
         {moviesList.map((movie) => {
           return (
             <MovieCard
               {...movie}
               onSetFav={() => toggleFavorites(movie.id)}
+              isFavorite={favorites.includes(movie.id)}
               key={movie.id}
             />
           );
         })}
       </div>
-      <div className="getMoreBtnDiv">
+      <div className={classes.getMoreBtnDiv}>
         <Button size="big">Get More Content</Button>
       </div>
-    </main>
+    </Fragment>
   );
 }
