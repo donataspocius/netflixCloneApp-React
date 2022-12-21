@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage/HomePage";
 import Layout from "./components/Layout/Layout";
-import Login from "./pages/Login.js";
+import Login from "./pages/Login/Login.js";
 import UserContent from "./pages/userContent";
 
 export default function App() {
@@ -12,24 +12,28 @@ export default function App() {
   );
 
   function toggleFavorites(movieId) {
-    let updateFavorites = [...favorites];
-    if (favorites.includes(movieId)) {
-      updateFavorites = updateFavorites.filter((id) => id !== movieId);
-    } else {
-      updateFavorites = updateFavorites.concat(movieId);
-    }
-    localStorage.setItem("favorites", JSON.stringify(updateFavorites));
-    setFavorites(updateFavorites);
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.includes(movieId)) {
+        return (prevFavorites = prevFavorites.filter((id) => id !== movieId));
+      } else {
+        return (prevFavorites = prevFavorites.concat(movieId));
+      }
+    });
 
-    //   setFavorites((prevFavorites) => {
-    //     if (prevFavorites.includes(movieId)) {
-    //       prevFavorites = prevFavorites.filter((id) => id !== movieId);
-    //     } else {
-    //       prevFavorites = prevFavorites.concat(movieId);
-    //     }
-    //   });
-    //   localStorage.setItem("favorites", JSON.stringify(favorites));
+    // ---> ALTERNATIVE
+    // let updateFavorites = [...favorites];
+    // if (favorites.includes(movieId)) {
+    //   updateFavorites = updateFavorites.filter((id) => id !== movieId);
+    // } else {
+    //   updateFavorites = updateFavorites.concat(movieId);
+    // }
+    // localStorage.setItem("favorites", JSON.stringify(updateFavorites));
+    // setFavorites(updateFavorites);
   }
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <BrowserRouter>

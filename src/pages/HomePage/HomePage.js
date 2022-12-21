@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 
 import classes from "./HomePage.module.css";
 
@@ -9,24 +9,22 @@ import Button from "../../components/Button/Button";
 export default function HomePage({ toggleFavorites, favorites }) {
   const [moviesList, setMoviesList] = useState([]);
 
-  useEffect(() => {
-    // getting API data
-    async function getApiData() {
-      try {
-        const result = await fetch(
-          "https://dummy-video-api.onrender.com/content/free-items"
-        );
-        const apiData = await result.json();
-        return apiData;
-      } catch (error) {
-        throw new Error(error);
-      }
+  // getting API data
+  const getApiData = useCallback(async () => {
+    try {
+      const result = await fetch(
+        "https://dummy-video-api.onrender.com/content/free-items"
+      );
+      const apiData = await result.json();
+      setMoviesList(apiData);
+    } catch (error) {
+      throw new Error(error);
     }
-
-    getApiData().then((moviesData) => {
-      setMoviesList(moviesData);
-    });
   }, []);
+
+  useEffect(() => {
+    getApiData();
+  }, [getApiData]);
 
   return (
     <Fragment>

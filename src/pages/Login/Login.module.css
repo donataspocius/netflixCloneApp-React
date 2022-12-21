@@ -1,0 +1,17 @@
+/* .formContainer {
+  align-items: center;
+} */
+
+.formLayout {
+  background-color: var(--lightGrey);
+  display: inline-flex;
+  flex-direction: column;
+  padding: 60px 60px 18px;
+  /* background: var(--lightGrey);
+  display: inline-flex;
+  flex-direction: column;
+  padding: 60px 60px 18px;
+  color: var(--black);*/
+  margin: 0 auto;
+  align-items: center;
+}
