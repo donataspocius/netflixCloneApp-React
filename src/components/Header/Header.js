@@ -8,7 +8,9 @@ export default function Header() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   return (
     <div className={classes.header}>
-      <img className={classes.logo} src={logo} alt="logo" />
+      <NavLink to={"/"}>
+        <img className={classes.logo} src={logo} alt="logo" />
+      </NavLink>
       <NavLink to="/login">
         <Button size="big">Sign in</Button>
       </NavLink>

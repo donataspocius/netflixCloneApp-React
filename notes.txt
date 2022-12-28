@@ -1,1 +1,5 @@
--- how to make login background take rest of vh (-footer -header)
+-- pages Login.js error: Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'icons')
+
+-- make errors direct to <ErrorPage />
+
+-- <Header /> button in <navLink> :D

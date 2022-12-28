@@ -5,6 +5,7 @@ import classes from "./HomePage.module.css";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import Button from "../../components/Button/Button";
+import { API } from "../../constants";
 
 export default function HomePage({ toggleFavorites, favorites }) {
   const [moviesList, setMoviesList] = useState([]);
@@ -12,9 +13,7 @@ export default function HomePage({ toggleFavorites, favorites }) {
   // getting API data
   const getApiData = useCallback(async () => {
     try {
-      const result = await fetch(
-        "https://dummy-video-api.onrender.com/content/free-items"
-      );
+      const result = await fetch(API.freeContent);
       const apiData = await result.json();
       setMoviesList(apiData);
     } catch (error) {
