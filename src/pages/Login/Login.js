@@ -6,9 +6,10 @@ import Input from "../../components/Input/Input";
 import classes from "./Login.module.css";
 import { API } from "../../constants";
 
-export default function Login() {
+export default function Login({ updateAuthToken }) {
   const [userData, setUserData] = useState({});
   const [canLogin, setCanLogin] = useState(true);
+  // const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -46,9 +47,10 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
     getAccessToken().then((data) => {
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        updateAuthToken(data.token);
         setCanLogin(true);
         navigate("/content", { replace: true });
       }

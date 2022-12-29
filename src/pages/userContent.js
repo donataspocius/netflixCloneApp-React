@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useEffect, useState } from "react";
 
 import MovieCard from "../components/MovieCard/MovieCard";
+import { API } from "../constants";
 import classes from "./HomePage/HomePage.module.css";
 
 export default function UserContent({ favorites, toggleFavorites }) {
@@ -9,16 +10,13 @@ export default function UserContent({ favorites, toggleFavorites }) {
 
   const getApiData = useCallback(async () => {
     try {
-      const result = await fetch(
-        "https://dummy-video-api.onrender.com/content/items",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const result = await fetch(API.userContent, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
+        },
+      });
       const apiData = await result.json();
       setUserMovies(apiData);
     } catch (error) {

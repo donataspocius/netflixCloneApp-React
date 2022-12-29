@@ -10,6 +10,12 @@ export default function App() {
   const [favorites, setFavorites] = useState(
     JSON.parse(localStorage.getItem("favorites")) || []
   );
+  const [authToken, setAuthToken] = useState(localStorage.getItem("token"));
+
+  function updateAuthToken(token) {
+    localStorage.setItem("token", token);
+    setAuthToken(token);
+  }
 
   function toggleFavorites(movieId) {
     setFavorites((prevFavorites) => {
@@ -37,7 +43,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Layout>
+      <Layout authToken={authToken} updateAuthToken={updateAuthToken}>
         <Routes>
           <Route
             path="/"
@@ -48,7 +54,10 @@ export default function App() {
               />
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login updateAuthToken={updateAuthToken} />}
+          />
           <Route
             path="/content"
             element={
