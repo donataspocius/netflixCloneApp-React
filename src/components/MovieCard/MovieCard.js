@@ -1,5 +1,6 @@
 import classes from "./MovieCard.module.css";
 import Button from "../Button/Button";
+import { Link, NavLink } from "react-router-dom";
 
 export default function MovieCard({
   title,
@@ -12,11 +13,18 @@ export default function MovieCard({
   return (
     <div className={classes.movieCard}>
       <div className={classes.imgContainer}>
-        <img src={image} alt={`${title} cover`} />
+        <NavLink to={`/content/${id}`}>
+          <img src={image} alt={`${title} cover`} />
+        </NavLink>
       </div>
       <div className={classes.contentContainer}>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <NavLink
+          to={`/content/${id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </NavLink>
         <Button id={id} size="small" onClick={onSetFav} isFavorite={isFavorite}>
           {isFavorite ? "Remove 💔" : "Favorite"}
         </Button>

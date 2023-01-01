@@ -1,0 +1,53 @@
+.movieDetailsContainer {
+  display: flex;
+  padding: 53px;
+}
+
+img {
+  margin-right: 26px;
+}
+
+.btnContainer {
+  display: flex;
+}
+
+h3 {
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 11px;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.modal {
+  position: fixed;
+  top: 10vh;
+  left: 10vw;
+  width: 80%;
+  z-index: 100;
+  overflow: hidden;
+}
+
+iframe {
+  width: 120vh;
+  height: calc(120vh / 16 * 9);
+}
+
+@media (min-aspect-ratio: 3/4) {
+  .modal {
+    width: 80vw;
+    height: calc(80vw / 16 * 9);
+  }
+}

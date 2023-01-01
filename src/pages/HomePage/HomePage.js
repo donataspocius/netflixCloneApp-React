@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./HomePage.module.css";
 
@@ -9,6 +10,8 @@ import { API } from "../../constants";
 
 export default function HomePage({ toggleFavorites, favorites }) {
   const [moviesList, setMoviesList] = useState([]);
+
+  const navigate = useNavigate();
 
   // getting API data
   const getApiData = useCallback(async () => {
@@ -42,7 +45,9 @@ export default function HomePage({ toggleFavorites, favorites }) {
         })}
       </div>
       <div className={classes.getMoreBtnDiv}>
-        <Button size="big">Get More Content</Button>
+        <Button size="big" onClick={() => navigate("/subscribe")}>
+          Get More Content
+        </Button>
       </div>
     </Fragment>
   );

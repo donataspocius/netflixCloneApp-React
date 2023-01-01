@@ -5,6 +5,11 @@ import HomePage from "./pages/HomePage/HomePage";
 import Layout from "./components/Layout/Layout";
 import Login from "./pages/Login/Login.js";
 import UserContent from "./pages/userContent";
+import MovieDetails from "./pages/MovieDetails/MovieDetails";
+import SubscribeLayout from "./pages/Subscribe/Subscribelayout";
+import UserInfo from "./pages/Subscribe/UserInfo/UserInfo";
+import Plan from "./pages/Subscribe/Plan/Plan";
+import Payment from "./pages/Subscribe/Payment/Payment";
 
 export default function App() {
   const [favorites, setFavorites] = useState(
@@ -67,6 +72,20 @@ export default function App() {
               />
             }
           />
+          <Route
+            path="/content/:id"
+            element={
+              <MovieDetails
+                toggleFavorites={toggleFavorites}
+                favorites={favorites}
+              />
+            }
+          />
+          <Route path="/subscribe" element={<SubscribeLayout />}>
+            <Route path="/subscribe/user-info" element={<UserInfo />} />
+            <Route path="/subscribe/plan" element={<Plan />} />
+            <Route path="/subscribe/payment" element={<Payment />} />
+          </Route>
           <Route path="*" element={<p>You're LOST! Page not found.</p>} />
         </Routes>
       </Layout>
