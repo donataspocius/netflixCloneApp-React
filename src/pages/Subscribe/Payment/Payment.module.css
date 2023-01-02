@@ -1,0 +1,13 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+input {
+  height: 50px;
+  margin-top: 15px;
+  margin-bottom: 26px;
+}

@@ -8,7 +8,7 @@ export default function HeroBanner() {
     <div className={classes.heroBanner}>
       <div className={classes.heroBannerContent}>
         <h1>Wanna more Content?</h1>
-        <Button size="big" onClick={() => navigate("/subscribe")}>
+        <Button size="big" onClick={() => navigate("/subscribe/user-info")}>
           Get Access
         </Button>
       </div>

@@ -45,7 +45,7 @@ export default function HomePage({ toggleFavorites, favorites }) {
         })}
       </div>
       <div className={classes.getMoreBtnDiv}>
-        <Button size="big" onClick={() => navigate("/subscribe")}>
+        <Button size="big" onClick={() => navigate("/subscribe/user-info")}>
           Get More Content
         </Button>
       </div>
