@@ -1,19 +1,11 @@
-import { useState } from "react";
 import React from "react-dom";
+import Button from "../../../components/Button/Button";
 import Input from "../../../components/Input/Input";
 import classes from "./UserInfo.module.css";
+import { useNavigate } from "react-router-dom";
 
-export default function UserInfo() {
-  const [userInfo, setUserInfo] = useState({});
-
-  function onChange(e) {
-    setUserInfo((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-  }
+export default function UserInfo({ onChange }) {
+  const navigate = useNavigate();
   return (
     <form className={classes.inputContainer}>
       <Input label={"Username"} name="username" onChange={onChange} />
@@ -29,6 +21,9 @@ export default function UserInfo() {
         type={"password"}
         onChange={onChange}
       />
+      <Button size="big" onClick={() => navigate("/subscribe/plan")}>
+        Continue
+      </Button>
     </form>
   );
 }

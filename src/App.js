@@ -79,10 +79,6 @@ export default function App() {
             }
           />
           <Route path="/subscribe/*" element={<SubscribeLayout />} />
-          {/* <Route path="/subscribe/user-info" element={<UserInfo />} />
-            <Route path="/subscribe/plan" element={<Plan />} />
-            <Route path="/subscribe/payment" element={<Payment />} /> */}
-          {/* </Route> */}
           <Route path="*" element={<p>You're LOST! Page not found.</p>} />
         </Routes>
       </Layout>

@@ -1,6 +1,13 @@
 import { Fragment, useId } from "react";
 
-export default function Input({ id, label, type = "text", onChange, name }) {
+export default function Input({
+  id,
+  label,
+  type = "text",
+  onChange,
+  name,
+  value,
+}) {
   let uniqueId = useId();
   return (
     <Fragment>
@@ -10,6 +17,7 @@ export default function Input({ id, label, type = "text", onChange, name }) {
         type={type}
         onChange={onChange}
         name={name}
+        value={value}
       ></input>
     </Fragment>
   );
