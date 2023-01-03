@@ -20,7 +20,7 @@ export default function Subscribe() {
 
   function onClick(e) {
     e.preventDefault();
-    console.log("submitting infoo", userInfo);
+    console.log("submitting info", userInfo);
   }
 
   console.log("user info", userInfo);
