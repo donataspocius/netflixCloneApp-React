@@ -1,9 +1,9 @@
 const INITIAL_STATE = {
   favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+  movies: [],
 };
 
 export default function contentReducer(state = INITIAL_STATE, action) {
-  console.log("content reducer");
   switch (action.type) {
     case "REMOVE_FAVORITE": {
       const newFavoriteArray = state.favorites.filter((id) => id !== action.id);
@@ -20,6 +20,14 @@ export default function contentReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         favorites: newFavoriteArray,
+      };
+    }
+    case "GET_MOVIES": {
+      if (Array.isArray(action.moviesApiData)) {
+      }
+      return {
+        ...state,
+        movies: action.moviesApiData,
       };
     }
     default:

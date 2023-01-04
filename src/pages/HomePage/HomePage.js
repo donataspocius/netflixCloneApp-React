@@ -9,9 +9,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import Button from "../../components/Button/Button";
 import { API } from "../../constants";
 
-function HomePage({ toggleFavorites, favorites }) {
-  const [moviesList, setMoviesList] = useState([]);
-
+function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
   const navigate = useNavigate();
 
   // getting API data
@@ -19,7 +17,7 @@ function HomePage({ toggleFavorites, favorites }) {
     try {
       const result = await fetch(API.freeContent);
       const apiData = await result.json();
-      setMoviesList(apiData);
+      getMovies(apiData);
     } catch (error) {
       throw new Error(error);
     }
@@ -34,7 +32,7 @@ function HomePage({ toggleFavorites, favorites }) {
       <HeroBanner />
       <div className={classes.horizontalLine}></div>
       <div className={classes.movieContainer}>
-        {moviesList.map((movie) => {
+        {movies.map((movie) => {
           return (
             <MovieCard
               {...movie}
@@ -59,6 +57,7 @@ function HomePage({ toggleFavorites, favorites }) {
 function mapStateToProps(state) {
   return {
     favorites: state.content.favorites || [],
+    movies: state.content.movies || [],
   };
 }
 
@@ -70,6 +69,9 @@ function mapDispatchToProps(dispatch) {
       } else {
         dispatch({ type: "ADD_FAVORITE", id });
       }
+    },
+    getMovies: (moviesApiData) => {
+      dispatch({ type: "GET_MOVIES", moviesApiData });
     },
   };
 }
