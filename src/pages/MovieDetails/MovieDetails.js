@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
@@ -11,9 +11,33 @@ function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
 
   const params = useParams();
   const { id } = params;
-  console.log("movies", movies);
-  const findMovie = movies.filter((movie) => movie.id === id);
-  const movieDetails = findMovie[0];
+
+  // const findMovie = movies.filter((movie) => movie.id === id);
+
+  // const movieDetails = findMovie[0];
+
+  const getApiData = useCallback(async () => {
+    try {
+      const result = await fetch(
+        `https://dummy-video-api.onrender.com/content/items/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      const apiData = await result.json();
+      getMovies(apiData);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [getMovies, id]);
+
+  useEffect(() => {
+    getApiData();
+  }, [getApiData, movies]);
 
   function handleWatchTrailer() {
     setModal(!modal);
@@ -21,13 +45,13 @@ function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
   return (
     <div className={classes.movieDetailsContainer}>
       <img
-        src={movieDetails.image}
+        src={movies.image}
         width="316px"
-        alt={`Movie "${movieDetails.title}" cover`}
+        alt={`Movie "${movies.title}" cover`}
       />
       <div>
-        <h3>{movieDetails.title}</h3>
-        <p>{movieDetails.description}</p>
+        <h3>{movies.title}</h3>
+        <p>{movies.description}</p>
         <div className="btnContainer">
           <Button size="big" onClick={handleWatchTrailer}>
             Watch
@@ -35,7 +59,7 @@ function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
           <Button
             size="big"
             isFavorite={isFavorite}
-            onClick={() => toggleFavorites(movieDetails.id, isFavorite)}
+            onClick={() => toggleFavorites(movies.id, isFavorite)}
           >
             {isFavorite ? "Remove 💔" : "Favorite"}
           </Button>
@@ -43,11 +67,7 @@ function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
         {modal && (
           <button className={classes.backdrop} onClick={handleWatchTrailer}>
             <div className={classes.modal}>
-              <iframe
-                title={movieDetails.title}
-                src={movieDetails.video}
-                allowFullScreen
-              />
+              <iframe title={movies.title} src={movies.video} allowFullScreen />
             </div>
           </button>
         )}
@@ -79,3 +99,26 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
+
+// const getApiData = useCallback(async () => {
+//   try {
+//     const result = await fetch(
+//       `https://dummy-video-api.onrender.com/content/items/${id}`,
+//       {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json",
+//           authorization: localStorage.getItem("token"),
+//         },
+//       }
+//     );
+//     const apiData = await result.json();
+//     setMovieDetails(apiData);
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// }, [id]);
+
+// useEffect(() => {
+//   getApiData();
+// }, [getApiData]);
