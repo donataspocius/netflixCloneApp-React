@@ -1,11 +1,12 @@
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import MovieCard from "../components/MovieCard/MovieCard";
 import { API } from "../constants";
 import classes from "./HomePage/HomePage.module.css";
 
-export default function UserContent({ favorites, toggleFavorites }) {
+function UserContent({ favorites, toggleFavorites }) {
   const [userMovies, setUserMovies] = useState([]);
 
   const getApiData = useCallback(async () => {
@@ -35,7 +36,9 @@ export default function UserContent({ favorites, toggleFavorites }) {
           return (
             <MovieCard
               {...movie}
-              onSetFav={() => toggleFavorites(movie.id)}
+              onSetFav={() =>
+                toggleFavorites(movie.id, favorites.includes(movie.id))
+              }
               isFavorite={favorites.includes(movie.id)}
               key={movie.id}
             />
@@ -45,3 +48,23 @@ export default function UserContent({ favorites, toggleFavorites }) {
     </main>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    favorites: state.content.favorites || [],
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleFavorites: (id, isFavorite) => {
+      if (isFavorite) {
+        dispatch({ type: "REMOVE_FAVORITE", id });
+      } else {
+        dispatch({ type: "ADD_FAVORITE", id });
+      }
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserContent);

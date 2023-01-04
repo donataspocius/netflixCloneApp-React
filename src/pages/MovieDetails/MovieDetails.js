@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import classes from "./MovieDetails.module.css";
 
-export default function MovieDetails({ toggleFavorites, favorites }) {
+function MovieDetails({ toggleFavorites, favorites }) {
   const [movieDetails, setMovieDetails] = useState({});
   const [modal, setModal] = useState(false);
 
@@ -55,7 +56,7 @@ export default function MovieDetails({ toggleFavorites, favorites }) {
           <Button
             size="big"
             isFavorite={isFavorite}
-            onClick={() => toggleFavorites(movieDetails.id)}
+            onClick={() => toggleFavorites(movieDetails.id, isFavorite)}
           >
             {isFavorite ? "Remove 💔" : "Favorite"}
           </Button>
@@ -66,7 +67,7 @@ export default function MovieDetails({ toggleFavorites, favorites }) {
               <iframe
                 title={movieDetails.title}
                 src={movieDetails.video}
-                frameborder="0"
+                // frameBorder="0"
                 allowFullScreen
               />
             </div>
@@ -76,3 +77,23 @@ export default function MovieDetails({ toggleFavorites, favorites }) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    favorites: state.content.favorites || [],
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleFavorites: (id, isFavorite) => {
+      if (isFavorite) {
+        dispatch({ type: "REMOVE_FAVORITE", id });
+      } else {
+        dispatch({ type: "ADD_FAVORITE", id });
+      }
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

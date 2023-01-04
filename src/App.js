@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 import HomePage from "./pages/HomePage/HomePage";
 import Layout from "./components/Layout/Layout";
@@ -9,9 +11,6 @@ import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import SubscribeLayout from "./pages/Subscribe/Subscribelayout";
 
 export default function App() {
-  const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || []
-  );
   const [authToken, setAuthToken] = useState(localStorage.getItem("token"));
 
   function updateAuthToken(token) {
@@ -19,69 +18,23 @@ export default function App() {
     setAuthToken(token);
   }
 
-  function toggleFavorites(movieId) {
-    setFavorites((prevFavorites) => {
-      if (prevFavorites.includes(movieId)) {
-        return (prevFavorites = prevFavorites.filter((id) => id !== movieId));
-      } else {
-        return (prevFavorites = prevFavorites.concat(movieId));
-      }
-    });
-
-    // ---> ALTERNATIVE
-    // let updateFavorites = [...favorites];
-    // if (favorites.includes(movieId)) {
-    //   updateFavorites = updateFavorites.filter((id) => id !== movieId);
-    // } else {
-    //   updateFavorites = updateFavorites.concat(movieId);
-    // }
-    // localStorage.setItem("favorites", JSON.stringify(updateFavorites));
-    // setFavorites(updateFavorites);
-  }
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
   return (
-    <BrowserRouter>
-      <Layout authToken={authToken} updateAuthToken={updateAuthToken}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                favorites={favorites}
-                toggleFavorites={toggleFavorites}
-              />
-            }
-          />
-          <Route
-            path="/login"
-            element={<Login updateAuthToken={updateAuthToken} />}
-          />
-          <Route
-            path="/content"
-            element={
-              <UserContent
-                favorites={favorites}
-                toggleFavorites={toggleFavorites}
-              />
-            }
-          />
-          <Route
-            path="/content/:id"
-            element={
-              <MovieDetails
-                toggleFavorites={toggleFavorites}
-                favorites={favorites}
-              />
-            }
-          />
-          <Route path="/subscribe/*" element={<SubscribeLayout />} />
-          <Route path="*" element={<p>You're LOST! Page not found.</p>} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Layout authToken={authToken} updateAuthToken={updateAuthToken}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/login"
+              element={<Login updateAuthToken={updateAuthToken} />}
+            />
+            <Route path="/content" element={<UserContent />} />
+            <Route path="/content/:id" element={<MovieDetails />} />
+            <Route path="/subscribe/*" element={<SubscribeLayout />} />
+            <Route path="*" element={<p>You're LOST! Page not found.</p>} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </Provider>
   );
 }

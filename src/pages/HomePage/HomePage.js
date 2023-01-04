@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 
 import classes from "./HomePage.module.css";
 
@@ -8,7 +9,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import Button from "../../components/Button/Button";
 import { API } from "../../constants";
 
-export default function HomePage({ toggleFavorites, favorites }) {
+function HomePage({ toggleFavorites, favorites }) {
   const [moviesList, setMoviesList] = useState([]);
 
   const navigate = useNavigate();
@@ -37,7 +38,9 @@ export default function HomePage({ toggleFavorites, favorites }) {
           return (
             <MovieCard
               {...movie}
-              onSetFav={() => toggleFavorites(movie.id)}
+              onSetFav={() =>
+                toggleFavorites(movie.id, favorites.includes(movie.id))
+              }
               isFavorite={favorites.includes(movie.id)}
               key={movie.id}
             />
@@ -52,3 +55,23 @@ export default function HomePage({ toggleFavorites, favorites }) {
     </Fragment>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    favorites: state.content.favorites || [],
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleFavorites: (id, isFavorite) => {
+      if (isFavorite) {
+        dispatch({ type: "REMOVE_FAVORITE", id });
+      } else {
+        dispatch({ type: "ADD_FAVORITE", id });
+      }
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
