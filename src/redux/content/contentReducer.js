@@ -24,20 +24,9 @@ export default function contentReducer(state = INITIAL_STATE, action) {
       };
     }
     case "GET_MOVIES": {
-      // console.log("get movies action: ", action);
-      // if (Array.isArray(action.moviesApiData)) {
-      //   console.log("array is array: ", action.moviesApiData);
       return {
         ...state,
         movies: action.moviesApiData,
-        //   };
-        // } else {
-        //   console.log("else return: ", [action.moviesApiData]);
-        // console.log("findMovie: ", findMovie);
-        // return {
-        //   ...state,
-        //   movies: state.movies.concat([action.moviesApiData]),
-        // };
       };
     }
 
