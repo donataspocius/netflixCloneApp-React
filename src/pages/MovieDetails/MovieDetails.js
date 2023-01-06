@@ -16,10 +16,11 @@ function MovieDetails({
 
   const params = useParams();
   const { id } = params;
+  let movie = null;
 
-  // const findMovie = movies.filter((movie) => movie.id === id);
-
-  // const movieDetails = findMovie[0];
+  if (movies.length !== 0) {
+    movie = movies.filter((movie) => movie.id === id)[0];
+  }
 
   const getApiData = useCallback(async () => {
     try {
@@ -34,57 +35,52 @@ function MovieDetails({
         }
       );
       const apiData = await result.json();
-      getMovies(apiData);
+      getMovies([apiData]);
     } catch (error) {
       throw new Error(error);
     }
   }, [getMovies, id]);
 
   useEffect(() => {
-    // const findMovie = movies.filter((movie) => movie.id === id);
-    // if (findMovie) {
-    //   console.log("movies.filter: ", ...findMovie);
-    //   getMovies(findMovie);
-    // } else {
-    // console.log("useEffect getApiData: ", movies);
-    getApiData();
-    // }
-  }, [getApiData]);
+    if (!movie) getApiData();
+  }, [getApiData, movie]);
 
   function handleWatchTrailer() {
     return toggleModal();
   }
   return (
-    <div className={classes.movieDetailsContainer}>
-      <img
-        src={movies.image}
-        width="316px"
-        alt={`Movie "${movies.title}" cover`}
-      />
-      <div>
-        <h3>{movies.title}</h3>
-        <p>{movies.description}</p>
-        <div className="btnContainer">
-          <Button size="big" onClick={handleWatchTrailer}>
-            Watch
-          </Button>
-          <Button
-            size="big"
-            isFavorite={isFavorite}
-            onClick={() => toggleFavorites(movies.id, isFavorite)}
-          >
-            {isFavorite ? "Remove 💔" : "Favorite"}
-          </Button>
-        </div>
-        {modal && (
-          <div className={classes.backdrop} onClick={handleWatchTrailer}>
-            <div className={classes.modal}>
-              <iframe title={movies.title} src={movies.video} allowFullScreen />
-            </div>
+    movie && (
+      <div className={classes.movieDetailsContainer}>
+        <img
+          src={movie.image}
+          width="316px"
+          alt={`Movie "${movie.title}" cover`}
+        />
+        <div>
+          <h3>{movie.title}</h3>
+          <p>{movie.description}</p>
+          <div className="btnContainer">
+            <Button size="big" onClick={handleWatchTrailer}>
+              Watch
+            </Button>
+            <Button
+              size="big"
+              isFavorite={isFavorite}
+              onClick={() => toggleFavorites(movie.id, isFavorite)}
+            >
+              {isFavorite ? "Remove 💔" : "Favorite"}
+            </Button>
           </div>
-        )}
+          {modal && (
+            <div className={classes.backdrop} onClick={handleWatchTrailer}>
+              <div className={classes.modal}>
+                <iframe title={movie.title} src={movie.video} allowFullScreen />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    )
   );
 }
 
