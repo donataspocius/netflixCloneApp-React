@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useCallback } from "react";
+import { Fragment, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -32,18 +32,19 @@ function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
       <HeroBanner />
       <div className={classes.horizontalLine}></div>
       <div className={classes.movieContainer}>
-        {movies.map((movie) => {
-          return (
-            <MovieCard
-              {...movie}
-              onSetFav={() =>
-                toggleFavorites(movie.id, favorites.includes(movie.id))
-              }
-              isFavorite={favorites.includes(movie.id)}
-              key={movie.id}
-            />
-          );
-        })}
+        {movies &&
+          movies.map((movie) => {
+            return (
+              <MovieCard
+                {...movie}
+                onSetFav={() =>
+                  toggleFavorites(movie.id, favorites.includes(movie.id))
+                }
+                isFavorite={favorites.includes(movie.id)}
+                key={movie.id}
+              />
+            );
+          })}
       </div>
       <div className={classes.getMoreBtnDiv}>
         <Button size="big" onClick={() => navigate("/subscribe/user-info")}>
