@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   favorites: JSON.parse(localStorage.getItem("favorites")) || [],
   movies: [],
+  modal: false,
 };
 
 export default function contentReducer(state = INITIAL_STATE, action) {
@@ -23,11 +24,28 @@ export default function contentReducer(state = INITIAL_STATE, action) {
       };
     }
     case "GET_MOVIES": {
-      if (Array.isArray(action.moviesApiData)) {
-      }
+      // console.log("get movies action: ", action);
+      // if (Array.isArray(action.moviesApiData)) {
+      //   console.log("array is array: ", action.moviesApiData);
       return {
         ...state,
         movies: action.moviesApiData,
+        //   };
+        // } else {
+        //   console.log("else return: ", [action.moviesApiData]);
+        // console.log("findMovie: ", findMovie);
+        // return {
+        //   ...state,
+        //   movies: state.movies.concat([action.moviesApiData]),
+        // };
+      };
+    }
+
+    case "TOGGLE_MODAL": {
+      console.log("TOGGLE_MODAL -->", state.modal);
+      return {
+        ...state,
+        modal: !state.modal,
       };
     }
     default:

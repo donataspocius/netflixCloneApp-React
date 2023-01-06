@@ -4,9 +4,14 @@ import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import classes from "./MovieDetails.module.css";
 
-function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
-  const [modal, setModal] = useState(false);
-
+function MovieDetails({
+  toggleFavorites,
+  favorites,
+  movies,
+  getMovies,
+  modal,
+  toggleModal,
+}) {
   const isFavorite = favorites.includes(movies.id);
 
   const params = useParams();
@@ -36,11 +41,18 @@ function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
   }, [getMovies, id]);
 
   useEffect(() => {
+    // const findMovie = movies.filter((movie) => movie.id === id);
+    // if (findMovie) {
+    //   console.log("movies.filter: ", ...findMovie);
+    //   getMovies(findMovie);
+    // } else {
+    // console.log("useEffect getApiData: ", movies);
     getApiData();
-  }, [getApiData, movies]);
+    // }
+  }, [getApiData]);
 
   function handleWatchTrailer() {
-    setModal(!modal);
+    return toggleModal();
   }
   return (
     <div className={classes.movieDetailsContainer}>
@@ -65,11 +77,11 @@ function MovieDetails({ toggleFavorites, favorites, movies, getMovies }) {
           </Button>
         </div>
         {modal && (
-          <button className={classes.backdrop} onClick={handleWatchTrailer}>
+          <div className={classes.backdrop} onClick={handleWatchTrailer}>
             <div className={classes.modal}>
               <iframe title={movies.title} src={movies.video} allowFullScreen />
             </div>
-          </button>
+          </div>
         )}
       </div>
     </div>
@@ -80,6 +92,7 @@ function mapStateToProps(state) {
   return {
     favorites: state.content.favorites || [],
     movies: state.content.movies || [],
+    modal: state.content.modal || false,
   };
 }
 
@@ -95,30 +108,10 @@ function mapDispatchToProps(dispatch) {
     getMovies: (moviesApiData) => {
       dispatch({ type: "GET_MOVIES", moviesApiData });
     },
+    toggleModal: () => {
+      dispatch({ type: "TOGGLE_MODAL" });
+    },
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
-
-// const getApiData = useCallback(async () => {
-//   try {
-//     const result = await fetch(
-//       `https://dummy-video-api.onrender.com/content/items/${id}`,
-//       {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           authorization: localStorage.getItem("token"),
-//         },
-//       }
-//     );
-//     const apiData = await result.json();
-//     setMovieDetails(apiData);
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// }, [id]);
-
-// useEffect(() => {
-//   getApiData();
-// }, [getApiData]);

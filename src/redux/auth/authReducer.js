@@ -1,6 +1,6 @@
-const initialState = localStorage.getItem("token") || "";
+const initialState = { token: localStorage.getItem("token") || "" };
 
-function authReducer(state = { initialState }, action) {
+function authReducer(state = initialState, action) {
   switch (action.type) {
     case "":
       break;
