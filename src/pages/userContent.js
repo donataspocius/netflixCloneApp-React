@@ -15,7 +15,7 @@ function UserContent({ favorites, toggleFavorites }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
+          authorization: localStorage.getItem("authToken"),
         },
       });
       const apiData = await result.json();

@@ -2,8 +2,9 @@ import classes from "./Header.module.css";
 import Button from "../Button/Button";
 import logo from "./../../imgs/logo.png";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default function Header({ authToken, updateAuthToken }) {
+function Header({ authToken, updateAuthToken }) {
   function handleLogout() {
     updateAuthToken("");
   }
@@ -21,3 +22,22 @@ export default function Header({ authToken, updateAuthToken }) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    authToken: state.auth.authToken || "",
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateAuthToken: (authToken) => {
+      dispatch({
+        type: "updateAuthToken",
+        authToken,
+      });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

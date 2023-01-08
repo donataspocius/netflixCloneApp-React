@@ -5,8 +5,9 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import classes from "./Login.module.css";
 import { API } from "../../constants";
+import { connect } from "react-redux";
 
-export default function Login({ updateAuthToken }) {
+function Login({ updateAuthToken }) {
   const [userData, setUserData] = useState({});
   const [canLogin, setCanLogin] = useState(true);
   // const [loading, setLoading] = useState(false);
@@ -76,3 +77,22 @@ export default function Login({ updateAuthToken }) {
     </Fragment>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    authToken: state.auth.authToken || "",
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateAuthToken: (authToken) => {
+      dispatch({
+        type: "updateAuthToken",
+        authToken,
+      });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

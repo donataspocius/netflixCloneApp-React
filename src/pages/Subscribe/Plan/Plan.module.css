@@ -1,0 +1,8 @@
+.planContainer {
+  border: 1px solid black;
+  flex: auto;
+}
+
+.inputContainer {
+  display: flex;
+}

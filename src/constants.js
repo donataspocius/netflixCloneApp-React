@@ -5,4 +5,6 @@ export const API = {
   freeContent: `${API_DOMAIN}/content/free-items`,
   userContent: `${API_DOMAIN}/content/items`,
   movieDetail: `${API_DOMAIN}/content/items/:id`,
+  plans: `${API_DOMAIN}/sales/plans`,
+  signup: `${API_DOMAIN}/auth/signup`,
 };

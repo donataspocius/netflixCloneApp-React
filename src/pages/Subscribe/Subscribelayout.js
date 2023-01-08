@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import React, { useState, useCallback, useEffect } from "react";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 import classes from "./SubscribeLayout.module.css";
 import UserInfo from "./UserInfo/UserInfo";
 import Plan from "./Plan/Plan";
 import Payment from "./Payment/Payment";
+import { API } from "../../constants";
 
-export default function Subscribe() {
+function Subscribe({ updateAuthToken }) {
   const [userInfo, setUserInfo] = useState({});
+
+  const navigate = useNavigate();
 
   function onChange(e) {
     const { name, value, type, checked } = e.target;
@@ -18,12 +22,42 @@ export default function Subscribe() {
     });
   }
 
+  const getAccessToken = useCallback(async () => {
+    try {
+      const result = await fetch(API.signup, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userInfo.username,
+          password: userInfo.password,
+          planId: userInfo.plan,
+        }),
+      });
+      const apiData = await result.json();
+      console.log(apiData);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getAccessToken();
+  }, [getAccessToken]);
+
   function onClick(e) {
     e.preventDefault();
     console.log("submitting info", userInfo);
+    getAccessToken().then((data) => {
+      if (data.token) {
+        updateAuthToken(data.token);
+        navigate("/content", { replace: true });
+      } else {
+        console.log("no token found", data);
+      }
+    });
   }
-
-  console.log("user info", userInfo);
 
   return (
     <div className={classes.formContainer}>
@@ -66,3 +100,22 @@ export default function Subscribe() {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    authToken: state.auth.authToken || "",
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateAuthToken: (authToken) => {
+      dispatch({
+        type: "updateAuthToken",
+        authToken,
+      });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Subscribe);

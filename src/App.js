@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -11,23 +10,13 @@ import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import SubscribeLayout from "./pages/Subscribe/Subscribelayout";
 
 export default function App() {
-  const [authToken, setAuthToken] = useState(localStorage.getItem("token"));
-
-  function updateAuthToken(token) {
-    localStorage.setItem("token", token);
-    setAuthToken(token);
-  }
-
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Layout authToken={authToken} updateAuthToken={updateAuthToken}>
+        <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route
-              path="/login"
-              element={<Login updateAuthToken={updateAuthToken} />}
-            />
+            <Route path="/login" element={<Login />} />
             <Route path="/content" element={<UserContent />} />
             <Route path="/content/:id" element={<MovieDetails />} />
             <Route path="/subscribe/*" element={<SubscribeLayout />} />
