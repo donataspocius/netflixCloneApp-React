@@ -40,7 +40,7 @@ function Subscribe({ updateAuthToken }) {
     } catch (error) {
       throw new Error(error);
     }
-  }, []);
+  }, [userInfo]);
 
   useEffect(() => {
     getAccessToken();
