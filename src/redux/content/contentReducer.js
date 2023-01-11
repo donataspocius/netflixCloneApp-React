@@ -1,3 +1,5 @@
+import * as TYPES from "./contentTypes";
+
 const INITIAL_STATE = {
   favorites: JSON.parse(localStorage.getItem("favorites")) || [],
   movies: [],
@@ -6,7 +8,7 @@ const INITIAL_STATE = {
 
 export default function contentReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "REMOVE_FAVORITE": {
+    case TYPES.REMOVE_FAVORITE: {
       const newFavoriteArray = state.favorites.filter((id) => id !== action.id);
       localStorage.setItem("favorites", JSON.stringify(newFavoriteArray));
       return {
@@ -14,7 +16,7 @@ export default function contentReducer(state = INITIAL_STATE, action) {
         favorites: newFavoriteArray,
       };
     }
-    case "ADD_FAVORITE": {
+    case TYPES.ADD_FAVORITE: {
       const newFavoriteArray = state.favorites.concat(action.id);
       localStorage.setItem("favorites", JSON.stringify(newFavoriteArray));
 
@@ -23,14 +25,14 @@ export default function contentReducer(state = INITIAL_STATE, action) {
         favorites: newFavoriteArray,
       };
     }
-    case "GET_MOVIES": {
+    case TYPES.GET_MOVIES: {
       return {
         ...state,
         movies: action.moviesApiData,
       };
     }
 
-    case "TOGGLE_MODAL": {
+    case TYPES.TOGGLE_MODAL: {
       console.log("TOGGLE_MODAL -->", state.modal);
       return {
         ...state,
