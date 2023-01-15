@@ -36,7 +36,6 @@ function Subscribe({ updateAuthToken }) {
         }),
       });
       const apiData = await result.json();
-      console.log(apiData);
     } catch (error) {
       throw new Error(error);
     }
@@ -48,7 +47,6 @@ function Subscribe({ updateAuthToken }) {
 
   function onClick(e) {
     e.preventDefault();
-    console.log("submitting info", userInfo);
     getAccessToken().then((data) => {
       if (data.token) {
         updateAuthToken(data.token);

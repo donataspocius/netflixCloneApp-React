@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import classes from "./MovieDetails.module.css";
+import content from "../../redux/content";
 
 function MovieDetails({
   toggleFavorites,
@@ -12,11 +13,10 @@ function MovieDetails({
   modal,
   toggleModal,
 }) {
-  const isFavorite = favorites.includes(movies.id);
-
   const params = useParams();
   const { id } = params;
   let movie = null;
+  // const isFavorite = favorites.includes(movie.id);
 
   if (movies.length !== 0) {
     movie = movies.filter((movie) => movie.id === id)[0];
@@ -65,10 +65,12 @@ function MovieDetails({
             </Button>
             <Button
               size="big"
-              isFavorite={isFavorite}
-              onClick={() => toggleFavorites(movie.id, isFavorite)}
+              isFavorite={favorites.includes(movie.id)}
+              onClick={() =>
+                toggleFavorites(movie.id, favorites.includes(movie.id))
+              }
             >
-              {isFavorite ? "Remove 💔" : "Favorite"}
+              {favorites.includes(movie.id) ? "Remove 💔" : "Favorite"}
             </Button>
           </div>
           {modal && (
@@ -86,26 +88,21 @@ function MovieDetails({
 
 function mapStateToProps(state) {
   return {
-    favorites: state.content.favorites || [],
-    movies: state.content.movies || [],
-    modal: state.content.modal || false,
+    favorites: content.selectors.getFavorites(state) || [],
+    movies: content.selectors.getAllMovies(state) || [],
+    modal: content.selectors.getModalState(state) || false,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     toggleFavorites: (id, isFavorite) => {
-      if (isFavorite) {
-        dispatch({ type: "REMOVE_FAVORITE", id });
-      } else {
-        dispatch({ type: "ADD_FAVORITE", id });
-      }
+      dispatch(content.actions.toggleFavorites(id, isFavorite));
     },
-    getMovies: (moviesApiData) => {
-      dispatch({ type: "GET_MOVIES", moviesApiData });
-    },
+    getMovies: (moviesApiData) =>
+      dispatch(content.actions.getMovies(moviesApiData)),
     toggleModal: () => {
-      dispatch({ type: "TOGGLE_MODAL" });
+      dispatch(content.actions.toggleModal());
     },
   };
 }

@@ -6,11 +6,11 @@ import Input from "../../components/Input/Input";
 import classes from "./Login.module.css";
 import { API } from "../../constants";
 import { connect } from "react-redux";
+import auth from "../../redux/auth";
 
 function Login({ updateAuthToken }) {
   const [userData, setUserData] = useState({});
   const [canLogin, setCanLogin] = useState(true);
-  // const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -80,17 +80,14 @@ function Login({ updateAuthToken }) {
 
 function mapStateToProps(state) {
   return {
-    authToken: state.auth.authToken || "",
+    authToken: auth.selectors.getAuthToken(state) || "",
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     updateAuthToken: (authToken) => {
-      dispatch({
-        type: "updateAuthToken",
-        authToken,
-      });
+      dispatch(auth.actions.updateAuthToken(authToken));
     },
   };
 }

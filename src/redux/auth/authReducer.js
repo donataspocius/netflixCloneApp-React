@@ -1,12 +1,13 @@
+import * as types from "./authTypes";
+
 const initialState = { authToken: localStorage.getItem("token") || "" };
 
 function authReducer(state = initialState, action) {
   switch (action.type) {
-    case "updateAuthToken":
-      localStorage.setItem("authToken", action.authToken);
+    case types.UPDATE_AUTH_TOKEN:
       return {
         ...state,
-        authToken: action.authToken,
+        authToken: action.payload,
       };
 
     default:

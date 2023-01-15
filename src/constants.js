@@ -1,3 +1,6 @@
+export const FAVORITES_STORAGE_KEY = "favorites";
+export const AUTH_STORAGE_KEY = "authToken";
+
 const API_DOMAIN = "https://dummy-video-api.onrender.com";
 
 export const API = {

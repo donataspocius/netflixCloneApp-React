@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
+import content from "../redux/content";
 import MovieCard from "../components/MovieCard/MovieCard";
 import { API } from "../constants";
 import classes from "./HomePage/HomePage.module.css";
@@ -59,9 +60,9 @@ function mapDispatchToProps(dispatch) {
   return {
     toggleFavorites: (id, isFavorite) => {
       if (isFavorite) {
-        dispatch({ type: "REMOVE_FAVORITE", id });
+        dispatch({ type: content.types.REMOVE_FAVORITE, id });
       } else {
-        dispatch({ type: "ADD_FAVORITE", id });
+        dispatch({ type: content.types.ADD_FAVORITE, id });
       }
     },
   };

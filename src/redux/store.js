@@ -1,7 +1,12 @@
-import { legacy_createStore as createStore } from "redux";
+import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import rootReducer from "./rootReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import middlewares from "./middlewares/middlewares";
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
+// const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;

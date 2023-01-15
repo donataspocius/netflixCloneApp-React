@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 import classes from "./HomePage.module.css";
-
+import content from "../../redux/content";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import Button from "../../components/Button/Button";
@@ -11,7 +11,6 @@ import { API } from "../../constants";
 
 function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
   const navigate = useNavigate();
-
   // getting API data
   const getApiData = useCallback(async () => {
     try {
@@ -57,23 +56,18 @@ function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
 
 function mapStateToProps(state) {
   return {
-    favorites: state.content.favorites || [],
-    movies: state.content.movies || [],
+    favorites: content.selectors.getFavorites(state) || [],
+    movies: content.selectors.getAllMovies(state) || [],
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     toggleFavorites: (id, isFavorite) => {
-      if (isFavorite) {
-        dispatch({ type: "REMOVE_FAVORITE", id });
-      } else {
-        dispatch({ type: "ADD_FAVORITE", id });
-      }
+      dispatch(content.actions.toggleFavorites(id, isFavorite));
     },
-    getMovies: (moviesApiData) => {
-      dispatch({ type: "GET_MOVIES", moviesApiData });
-    },
+    getMovies: (moviesApiData) =>
+      dispatch(content.actions.getMovies(moviesApiData)),
   };
 }
 

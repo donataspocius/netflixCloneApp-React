@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import logo from "./../../imgs/logo.png";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import auth from "./../../redux/auth";
 
 function Header({ authToken, updateAuthToken }) {
   function handleLogout() {
@@ -25,17 +26,14 @@ function Header({ authToken, updateAuthToken }) {
 
 function mapStateToProps(state) {
   return {
-    authToken: state.auth.authToken || "",
+    authToken: auth.selectors.getAuthToken(state) || "",
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     updateAuthToken: (authToken) => {
-      dispatch({
-        type: "updateAuthToken",
-        authToken,
-      });
+      dispatch(auth.actions.updateAuthToken(authToken));
     },
   };
 }
