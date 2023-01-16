@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./HomePage.module.css";
 import content from "../../redux/content";
@@ -9,19 +9,22 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import Button from "../../components/Button/Button";
 import { API } from "../../constants";
 
-function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
+function HomePage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const favorites = useSelector(content.selectors.getFavorites);
+  const movies = useSelector(content.selectors.getAllMovies);
+
   // getting API data
   const getApiData = useCallback(async () => {
     try {
       const result = await fetch(API.freeContent);
       const apiData = await result.json();
-      getMovies(apiData);
+      dispatch(content.actions.getMovies(apiData));
     } catch (error) {
       throw new Error(error);
     }
-  }, [getMovies]);
-  // s
+  }, [dispatch]);
 
   useEffect(() => {
     getApiData();
@@ -38,7 +41,13 @@ function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
               <MovieCard
                 {...movie}
                 onSetFav={() =>
-                  toggleFavorites(movie.id, favorites.includes(movie.id))
+                  // toggleFavorites(movie.id, )
+                  dispatch(
+                    content.actions.toggleFavorites(
+                      movie.id,
+                      favorites.includes(movie.id)
+                    )
+                  )
                 }
                 isFavorite={favorites.includes(movie.id)}
                 key={movie.id}
@@ -55,21 +64,4 @@ function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    favorites: content.selectors.getFavorites(state) || [],
-    movies: content.selectors.getAllMovies(state) || [],
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleFavorites: (id, isFavorite) => {
-      dispatch(content.actions.toggleFavorites(id, isFavorite));
-    },
-    getMovies: (moviesApiData) =>
-      dispatch(content.actions.getMovies(moviesApiData)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;

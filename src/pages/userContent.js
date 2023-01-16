@@ -1,14 +1,25 @@
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 
 import content from "../redux/content";
 import MovieCard from "../components/MovieCard/MovieCard";
 import { API } from "../constants";
 import classes from "./HomePage/HomePage.module.css";
 
-function UserContent({ favorites, toggleFavorites }) {
+function UserContent() {
   const [userMovies, setUserMovies] = useState([]);
+
+  const dispatch = useDispatch();
+  const favorites = useSelector(content.selectors.getFavorites);
+
+  function toggleFavorites(id, isFavorite) {
+    if (isFavorite) {
+      dispatch({ type: content.types.REMOVE_FAVORITE, id });
+    } else {
+      dispatch({ type: content.types.ADD_FAVORITE, id });
+    }
+  }
 
   const getApiData = useCallback(async () => {
     try {
@@ -50,22 +61,24 @@ function UserContent({ favorites, toggleFavorites }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    favorites: state.content.favorites || [],
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     favorites: state.content.favorites || [],
+//   };
+// }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleFavorites: (id, isFavorite) => {
-      if (isFavorite) {
-        dispatch({ type: content.types.REMOVE_FAVORITE, id });
-      } else {
-        dispatch({ type: content.types.ADD_FAVORITE, id });
-      }
-    },
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     toggleFavorites: (id, isFavorite) => {
+//       if (isFavorite) {
+//         dispatch({ type: content.types.REMOVE_FAVORITE, id });
+//       } else {
+//         dispatch({ type: content.types.ADD_FAVORITE, id });
+//       }
+//     },
+//   };
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserContent);
+// export default connect(mapStateToProps, mapDispatchToProps)(UserContent);
+
+export default UserContent;

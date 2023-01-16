@@ -5,7 +5,7 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import classes from "./Login.module.css";
 import { API } from "../../constants";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import auth from "../../redux/auth";
 
 function Login({ updateAuthToken }) {
@@ -13,6 +13,7 @@ function Login({ updateAuthToken }) {
   const [canLogin, setCanLogin] = useState(true);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function onChange(e) {
     setUserData((prevUserData) => {
@@ -51,7 +52,7 @@ function Login({ updateAuthToken }) {
 
     getAccessToken().then((data) => {
       if (data.token) {
-        updateAuthToken(data.token);
+        dispatch(auth.actions.updateAuthToken(data.token));
         setCanLogin(true);
         navigate("/content", { replace: true });
       }
@@ -78,18 +79,4 @@ function Login({ updateAuthToken }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    authToken: auth.selectors.getAuthToken(state) || "",
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    updateAuthToken: (authToken) => {
-      dispatch(auth.actions.updateAuthToken(authToken));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
