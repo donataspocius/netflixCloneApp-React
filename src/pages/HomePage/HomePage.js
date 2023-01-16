@@ -21,6 +21,7 @@ function HomePage({ favorites, toggleFavorites, movies, getMovies }) {
       throw new Error(error);
     }
   }, [getMovies]);
+  // s
 
   useEffect(() => {
     getApiData();
