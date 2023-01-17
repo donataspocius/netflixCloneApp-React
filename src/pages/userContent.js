@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import content from "../redux/content";
 import MovieCard from "../components/MovieCard/MovieCard";
@@ -60,25 +60,5 @@ function UserContent() {
     </main>
   );
 }
-
-// function mapStateToProps(state) {
-//   return {
-//     favorites: state.content.favorites || [],
-//   };
-// }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     toggleFavorites: (id, isFavorite) => {
-//       if (isFavorite) {
-//         dispatch({ type: content.types.REMOVE_FAVORITE, id });
-//       } else {
-//         dispatch({ type: content.types.ADD_FAVORITE, id });
-//       }
-//     },
-//   };
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(UserContent);
 
 export default UserContent;

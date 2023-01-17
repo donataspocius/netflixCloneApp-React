@@ -1,9 +1,1 @@
--- pages Login.js error: Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'icons')
-
--- make errors direct to <ErrorPage />
-
--- <Header /> button in <navLink> :D
-
--- SubscribeLayout useCallback dependency yra input data -> kaip optimaliau išspręsti?
-
 -- why in TYPES dedame `${MODULE_NAME}.updateAuthToken`;

@@ -5,6 +5,8 @@ const INITIAL_STATE = {
   favorites: JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY)) || [],
   movies: [],
   modal: false,
+  loading: false,
+  error: false,
 };
 
 export default function contentReducer(state = INITIAL_STATE, action) {
