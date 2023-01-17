@@ -1,4 +1,3 @@
-import { createAction } from "@reduxjs/toolkit";
 import { API } from "./../../constants";
 import {
   GET_MOVIES,
@@ -12,6 +11,7 @@ export const getMovies = (moviesApiData) => {
 };
 
 export const toggleFavorites = (id, isFavorite) => {
+  console.log("id, isFav: ", id, isFavorite);
   if (isFavorite) {
     return { type: REMOVE_FAVORITE, id };
   } else {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import classes from "./MovieDetails.module.css";
@@ -44,6 +44,7 @@ function MovieDetails() {
   function handleWatchTrailer() {
     return dispatch(content.actions.toggleModal());
   }
+
   return (
     movie && (
       <div className={classes.movieDetailsContainer}>
@@ -62,12 +63,18 @@ function MovieDetails() {
             <Button
               size="big"
               isFavorite={favorites.includes(movie.id)}
-              onClick={() =>
-                dispatch(
-                  content.actions.toggleFavorites(movie.id),
+              onClick={() => {
+                console.log(
+                  "favorites.includes(movie.id)",
                   favorites.includes(movie.id)
-                )
-              }
+                );
+                dispatch(
+                  content.actions.toggleFavorites(
+                    movie.id,
+                    favorites.includes(movie.id)
+                  )
+                );
+              }}
             >
               {favorites.includes(movie.id) ? "Remove 💔" : "Favorite"}
             </Button>
