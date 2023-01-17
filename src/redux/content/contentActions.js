@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { createAction } from "@reduxjs/toolkit";
 import { API } from "./../../constants";
 import {
   GET_MOVIES,

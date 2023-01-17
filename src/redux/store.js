@@ -1,12 +1,23 @@
-import { legacy_createStore as createStore, applyMiddleware } from "redux";
-import rootReducer from "./rootReducer";
-import { composeWithDevTools } from "redux-devtools-extension";
-import middlewares from "./middlewares/middlewares";
+import { configureStore } from "@reduxjs/toolkit";
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(...middlewares))
-);
-// const store = createStore(rootReducer, composeWithDevTools());
+import middlewares from "./middlewares/middlewares";
+import content from "./content";
+import auth from "./auth";
+
+const store = configureStore({
+  reducer: {
+    [content.constants.MODULE_NAME]: content.contentReducer,
+    [auth.constants.MODULE_NAME]: auth.authReducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    console.log("getDefaultMiddleware: ", getDefaultMiddleware());
+    return getDefaultMiddleware({
+      thunk: true,
+      serializableCheck: false,
+      imutableCheck: false,
+    }).concat(middlewares);
+  },
+  devTools: true,
+});
 
 export default store;
