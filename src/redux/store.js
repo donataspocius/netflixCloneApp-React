@@ -7,6 +7,5 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middlewares))
 );
-// const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;

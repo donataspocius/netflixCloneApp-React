@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
 import { API } from "./../../constants";
+import auth from "./../auth";
 import {
   GET_MOVIES,
   ADD_FAVORITE,
@@ -25,15 +25,20 @@ export const toggleModal = () => {
 
 export const getApiData =
   (movieType = "free", movieId) =>
-  async () => {
+  async (dispatch, getState) => {
     const fetchEndpoints = {
       free: API.freeContent,
       all: API.userContent,
       single: API.movieDetail(movieId),
     }[movieType];
+
     // dispatch fetch start / loading true, error: false;
     try {
-      const result = await fetch(fetchEndpoints);
+      const result = await fetch(fetchEndpoints, {
+        headers: {
+          authorization: auth.selectors.getAuthToken(getState()),
+        },
+      });
       const apiData = await result.json();
       // dispatch success / loading: false, error: false;
     } catch (error) {
