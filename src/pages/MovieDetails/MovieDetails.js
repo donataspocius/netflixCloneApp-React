@@ -1,9 +1,12 @@
 import React, { useCallback, useState, useEffect } from "react";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import ContentContext from "../../context/ContentContext";
 import classes from "./MovieDetails.module.css";
 
-export default function MovieDetails({ toggleFavorites, favorites }) {
+export default function MovieDetails() {
+  const { favorites, toggleFavorites } = useContext(ContentContext);
   const [movieDetails, setMovieDetails] = useState({});
   const [modal, setModal] = useState(false);
 

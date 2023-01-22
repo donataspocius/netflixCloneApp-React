@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import classes from "./Login.module.css";
 import { API } from "../../constants";
+import AuthContext from "../../context/AuthContext";
 
-export default function Login({ updateAuthToken }) {
+export default function Login() {
+  const { updateAuthToken } = useContext(AuthContext);
+
   const [userData, setUserData] = useState({});
   const [canLogin, setCanLogin] = useState(true);
   // const [loading, setLoading] = useState(false);

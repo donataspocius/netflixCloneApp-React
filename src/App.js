@@ -7,83 +7,23 @@ import Login from "./pages/Login/Login.js";
 import UserContent from "./pages/userContent";
 import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import SubscribeLayout from "./pages/Subscribe/Subscribelayout";
+import { ContextProvider } from "./context/ContextProvider";
 
 export default function App() {
-  const [favorites, setFavorites] = useState(
-    JSON.parse(localStorage.getItem("favorites")) || []
-  );
-  const [authToken, setAuthToken] = useState(localStorage.getItem("token"));
-
-  function updateAuthToken(token) {
-    localStorage.setItem("token", token);
-    setAuthToken(token);
-  }
-
-  function toggleFavorites(movieId) {
-    setFavorites((prevFavorites) => {
-      if (prevFavorites.includes(movieId)) {
-        return (prevFavorites = prevFavorites.filter((id) => id !== movieId));
-      } else {
-        return (prevFavorites = prevFavorites.concat(movieId));
-      }
-    });
-
-    // ---> ALTERNATIVE
-    // let updateFavorites = [...favorites];
-    // if (favorites.includes(movieId)) {
-    //   updateFavorites = updateFavorites.filter((id) => id !== movieId);
-    // } else {
-    //   updateFavorites = updateFavorites.concat(movieId);
-    // }
-    // localStorage.setItem("favorites", JSON.stringify(updateFavorites));
-    // setFavorites(updateFavorites);
-  }
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
   return (
     <BrowserRouter>
-      <Layout authToken={authToken} updateAuthToken={updateAuthToken}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                favorites={favorites}
-                toggleFavorites={toggleFavorites}
-              />
-            }
-          />
-          <Route
-            path="/login"
-            element={<Login updateAuthToken={updateAuthToken} />}
-          />
-          <Route
-            path="/content"
-            element={
-              <UserContent
-                favorites={favorites}
-                toggleFavorites={toggleFavorites}
-              />
-            }
-          />
-          <Route
-            path="/content/:id"
-            element={
-              <MovieDetails
-                toggleFavorites={toggleFavorites}
-                favorites={favorites}
-              />
-            }
-          />
-          <Route path="/subscribe/*" element={<SubscribeLayout />} />
-          <Route path="*" element={<p>You're LOST! Page not found.</p>} />
-        </Routes>
-      </Layout>
+      <ContextProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/content" element={<UserContent />} />
+            <Route path="/content/:id" element={<MovieDetails />} />
+            <Route path="/subscribe/*" element={<SubscribeLayout />} />
+            <Route path="*" element={<p>You're LOST! Page not found.</p>} />
+          </Routes>
+        </Layout>
+      </ContextProvider>
     </BrowserRouter>
   );
 }
-
-// just a test from MAIN

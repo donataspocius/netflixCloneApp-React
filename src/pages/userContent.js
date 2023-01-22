@@ -1,11 +1,14 @@
+import { useContext } from "react";
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
 
 import MovieCard from "../components/MovieCard/MovieCard";
 import { API } from "../constants";
+import ContentContext from "../context/ContentContext";
 import classes from "./HomePage/HomePage.module.css";
 
-export default function UserContent({ favorites, toggleFavorites }) {
+export default function UserContent() {
+  const { favorites, toggleFavorites } = useContext(ContentContext);
   const [userMovies, setUserMovies] = useState([]);
 
   const getApiData = useCallback(async () => {

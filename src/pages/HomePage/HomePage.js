@@ -7,8 +7,11 @@ import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import Button from "../../components/Button/Button";
 import { API } from "../../constants";
+import { useContext } from "react";
+import ContentContext from "../../context/ContentContext";
 
-export default function HomePage({ toggleFavorites, favorites }) {
+export default function HomePage() {
+  const { toggleFavorites, favorites } = useContext(ContentContext);
   const [moviesList, setMoviesList] = useState([]);
 
   const navigate = useNavigate();

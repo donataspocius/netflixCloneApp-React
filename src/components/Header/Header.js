@@ -2,8 +2,11 @@ import classes from "./Header.module.css";
 import Button from "../Button/Button";
 import logo from "./../../imgs/logo.png";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
-export default function Header({ authToken, updateAuthToken }) {
+export default function Header() {
+  const { authToken, updateAuthToken } = useContext(AuthContext);
   function handleLogout() {
     updateAuthToken("");
   }

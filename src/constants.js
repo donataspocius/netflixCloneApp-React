@@ -6,3 +6,6 @@ export const API = {
   userContent: `${API_DOMAIN}/content/items`,
   movieDetail: `${API_DOMAIN}/content/items/:id`,
 };
+
+export const FAVORITES_STORAGE_KEY = "favorites";
+export const AUTH_STORAGE_KEY = "authToken";
