@@ -23,30 +23,10 @@ export default function contentReducer(state = INITIAL_STATE, action) {
         favorites: state.favorites.concat(action.id),
       };
     }
-    // case TYPES.GET_MOVIES: {
-    //   return {
-    //     ...state,
-    //     movies: action.payload,
-    //   };
-    // }
     case TYPES.GET_MOVIES: {
       return {
         ...state,
-        loading: true,
-      };
-    }
-    case TYPES.GET_MOVIES_SUCCESS: {
-      return {
-        ...state,
         movies: action.payload,
-        loading: false,
-      };
-    }
-    case TYPES.GET_MOVIES_FAILURE: {
-      return {
-        ...state,
-        error: true,
-        loading: false,
       };
     }
 

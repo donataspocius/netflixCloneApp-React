@@ -2,16 +2,14 @@ import { API } from "./../../constants";
 import auth from "./../auth";
 import {
   GET_MOVIES,
-  GET_MOVIES_SUCCESS,
-  GET_MOVIES_FAILURE,
   ADD_FAVORITE,
   REMOVE_FAVORITE,
   TOGGLE_MODAL,
 } from "./contentTypes";
 
-// export const getMovies = (moviesApiData) => {
-//   return { type: GET_MOVIES, payload: moviesApiData };
-// };
+export const getMovies = (moviesApiData) => {
+  return { type: GET_MOVIES, payload: moviesApiData };
+};
 
 export const toggleFavorites = (id, isFavorite) => {
   if (isFavorite) {
@@ -25,7 +23,7 @@ export const toggleModal = () => {
   return { type: TOGGLE_MODAL };
 };
 
-export const getMovies =
+export const getApiData =
   (movieType = "free", movieId) =>
   async (dispatch, getState) => {
     const fetchEndpoints = {
@@ -33,8 +31,6 @@ export const getMovies =
       all: API.userContent,
       single: API.movieDetail(movieId),
     }[movieType];
-
-    dispatch({ type: GET_MOVIES });
 
     // dispatch fetch start / loading true, error: false;
     try {
@@ -45,9 +41,7 @@ export const getMovies =
       });
       const apiData = await result.json();
       // dispatch success / loading: false, error: false;
-      dispatch({ type: GET_MOVIES_SUCCESS, payload: apiData });
     } catch (error) {
-      dispatch({ type: GET_MOVIES_FAILURE });
       // set error
       // dispatch error loading: false, error: true;
     }

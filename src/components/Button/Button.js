@@ -21,5 +21,3 @@ export default function Button({
     </button>
   );
 }
-
-// comment
