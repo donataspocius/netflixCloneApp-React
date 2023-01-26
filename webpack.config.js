@@ -20,8 +20,13 @@ module.exports = {
   ],
   module: {
     rules: [
+      { test: /\.js$/, use: "babel-loader" },
       { test: /\.scss$/, use: [...cssLoaders, "sass-loader"] },
       { test: /\.css$/, use: cssLoaders },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i, // (1)
+        use: "file-loader",
+      },
     ],
   },
   mode: "production",
